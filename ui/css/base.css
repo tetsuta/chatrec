@@ -37,13 +37,17 @@ div#result {
     font-family: Consolas, "Courier New", Courier, monospace;
     line-height: 21px;
 
-    background-color: #282a3a;
+    /* background-color: #282a3a; */
     /* background-color: #fefefe; */
     /* border: 1px solid #000000; */
 
     border-radius: 2px;
-    padding: 20px 10px;
+    padding: 5px 5px;
     width: 100%;
+}
+
+#user_query {
+    /* width: 100%; */
 }
 
 #codetext {
@@ -53,29 +57,13 @@ div#result {
     padding: 0;
     border: 0;
 
-    background: #282a3a;
-    color: #fff;
-    /* background-color: #fefefe; */
-    /* color: #000; */
+    /* background: #282a3a; */
+    /* color: #fff; */
+    background-color: #fefefe;
+    color: #000;
 
     outline: none;
     resize: none;
     font-family: Consolas, "Courier New", Courier, monospace;
-}
-
-.numbers {
-    width: 20px;
-    text-align: right;
-}
-
-.numbers span {
-    counter-increment: linenumber;
-}
-
-.numbers span::before {
-    /* content: counter(linenumber); */
-    content: counter(linenumber);
-    display: block;
-    color: #506882;
 }
 

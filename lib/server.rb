@@ -8,7 +8,7 @@ require 'net/protocol'
 require 'logger'
 
 require_relative './config'
-require_relative './codex'
+require_relative './chatrec'
 
 # -------------------------------------------------- #
 opts = GetoptLong.new([ "--help", "-h", GetoptLong::NO_ARGUMENT ] )
@@ -51,7 +51,7 @@ when :debug then
   $logger.level = Logger::DEBUG
 end
 
-codex = CODEX.new()
+chatrec = CHATREC.new()
 
 options = {
   :Port => SystemPort,
@@ -93,8 +93,8 @@ s.mount_proc('/'){|request, response|
     when "run"
       $logger.info("connection: :#{request.peeraddr.to_s}")
       $logger.info("getAllReport")
-      code = userInput["code"]
-      message = codex.run(code)
+      query = userInput["query"]
+      message = chatrec.run(query)
       data["message"] = message
       response.body = JSON.generate(data)
     end
@@ -113,7 +113,7 @@ s.mount_proc('/'){|request, response|
     else
       response.status = 500
     end
-    errbody["code"] = response.status
+    errbody["query"] = response.status
     errbody["message"] = e.message
     errdata["error"] = errbody
     response.body = JSON.generate(errdata)
@@ -130,5 +130,5 @@ Signal.trap(:INT){
 }
 
 s.start
-codex.close()
+chatrec.close()
 

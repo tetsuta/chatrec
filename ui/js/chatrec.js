@@ -4,19 +4,17 @@ var Codex = function() {
     var on_control = false;
 
     function main() {
-
 	setupControlls();
-
     }
 
-    function getRunResult(code){
+    function getRunResult(query){
         $.ajax({
             type: 'POST',
             url: new Config().getUrl() + '/',
             async: false,
             data: JSON.stringify({
                 mode: "run",
-		code: code
+		query: query
 	    }),
         }).done(function(data) {
 	    $('#result').html(data.message);
@@ -24,7 +22,7 @@ var Codex = function() {
     }
 
     function setupControlls() {
-	$('#codetext').on('keydown', function(e) {
+	$('#user_query').on('keydown', function(e) {
 	    if (e.key == "Control") {
 		on_control = true;
 	    }
@@ -38,24 +36,20 @@ var Codex = function() {
 		    call_process();
 		}
 	    }
-	    console.log(e.key);
-	    console.log(e.keyCode);
+	    // console.log(e.key);
+	    // console.log(e.keyCode);
 	});
 
 
 	$('#codetext').on('keyup', function(e) {
 	    if (e.key == "Control") {
 		on_control = false;
-		// console.log("shift off");
 	    }
 
-	    setLineNumber();
 	});
 
-	$('#clear').on('click', function() {
-	    $('#codetext').val("");
-	    setLineNumber();
-	});
+	// $('#clear').on('click', function() {
+	// });
 
 	$('#run').on('click', function() {
 	    if (on_run == false) {
@@ -68,18 +62,15 @@ var Codex = function() {
 	$('#run').removeClass("btn-primary");
 	$('#run').addClass("btn-secondary");
 	on_run = true;
-	var code = $('#codetext').val();
-	// console.log(code);
-	getRunResult(code);
+	var query = $('#user_query').val();
+	console.log(query);
+	getRunResult(query);
 
 	$('#run').removeClass("btn-secondary");
 	$('#run').addClass("btn-primary");
 	on_run = false;
-    }
 
-    function setLineNumber() {
-        const num = $('#codetext').val().split("\n").length;
-        $('#numberRow').html(Array(num).fill("<span></span>").join(""));
+	$('#user_query').val("");
     }
 
     return {
