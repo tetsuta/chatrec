@@ -1,2 +1,4 @@
 # chatrec
-collect chat data
+a system to collect chat data
+
+
