@@ -48,9 +48,9 @@ class OpenAI
                      "content" => content
                    })
 
-    puts "---------------"
-    puts "messages"
-    puts @messages
+    # puts "---------------"
+    # puts "messages"
+    # puts @messages
 
     params = {"model" => @model,
               "messages" => @messages,

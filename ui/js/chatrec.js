@@ -7,13 +7,14 @@ var Codex = function() {
 	setupControlls();
     }
 
-    function getRunResult(query){
+    function getRunResult(query, user_id){
         $.ajax({
             type: 'POST',
             url: new Config().getUrl() + '/',
             async: false,
             data: JSON.stringify({
                 mode: "run",
+		user_id: user_id,
 		query: query
 	    }),
         }).done(function(data) {
@@ -60,12 +61,21 @@ var Codex = function() {
     }
 
     function call_process() {
+	var user_id = $('#user_id').val();
+
+	if (user_id == "") {
+	    console.log("empty ID!")
+	} else {
+	    console.log(user_id)
+	}
+
 	$('#run').removeClass("btn-primary");
 	$('#run').addClass("btn-secondary");
 	on_run = true;
 	var query = $('#user_query').val();
 	// console.log(query);
-	getRunResult(query);
+
+	getRunResult(query, user_id);
 
 	$('#run').removeClass("btn-secondary");
 	$('#run').addClass("btn-primary");

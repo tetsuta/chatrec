@@ -93,8 +93,9 @@ s.mount_proc('/'){|request, response|
     when "run"
       $logger.info("connection: :#{request.peeraddr.to_s}")
       $logger.info("getAllReport")
+      user_id = userInput["user_id"]
       query = userInput["query"]
-      message = chatrec.run(query)
+      message = chatrec.run(query, user_id)
       data["message"] = message
       response.body = JSON.generate(data)
     end

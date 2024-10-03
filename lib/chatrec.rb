@@ -14,8 +14,12 @@ class CHATREC
     @oai = OpenAI.new(uri, key, model, temp, max_tokens, role)
   end
 
-  def run(query)
-    
+  def format_html(text)
+    return text
+  end
+
+
+  def run(query, user_id)
     sid = "SID"
     timestamp = Time.now.strftime("%Y/%m/%d %H:%M:%S")
     response = @oai.get_answer(query)
@@ -31,11 +35,18 @@ class CHATREC
     buffer.push("")
 
     buffer.push("<div class=\"system_utt\">")
-    buffer.push(response)
+    buffer.push(format_html(response))
     buffer.push("</div>")
     buffer.push("")
 
     
+    puts "---------------"
+    puts timestamp
+    puts user_id
+    puts query
+    puts response
+
+
     return buffer.join("\n")
   end
 

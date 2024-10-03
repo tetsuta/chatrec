@@ -1,5 +1,21 @@
 
 * todo
+** store log in chatrec.rb instead of openai.rb
+** replace markdown into html
+format_html(text)
+
+"**abc** -> bold"
+"return -> <br>"
+
+富士山の高さは
+どこから登るのがいい？
+
+
+
+** store user id
+** add thinking message
+** add clear button
+** stop working without name
 ** store and restore function
 ** loging function
 ** サーバを起動したときに config.jsで指定する URLを書き換えるようにする
