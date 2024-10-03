@@ -12,3 +12,6 @@ HTTPAccessControl = "*"
 UseSSL = false
 SSLCertFile = 'path/to/certfile'
 SSLCertKeyFile = 'path/to/keyfile'
+
+OpenAI_Key = "key_for_openAI"
+
