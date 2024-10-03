@@ -33,12 +33,12 @@ var Codex = function() {
 		return false;
 	    }
 	    if (e.key == "Enter") {
-		if (on_control == true) {
+		// if (on_control == true) {
 		    call_process();
-		}
+		// }
 	    }
-	    console.log(e.key);
-	    console.log(e.keyCode);
+	    // console.log(e.key);
+	    // console.log(e.keyCode);
 	});
 
 
@@ -64,7 +64,7 @@ var Codex = function() {
 	$('#run').addClass("btn-secondary");
 	on_run = true;
 	var query = $('#user_query').val();
-	console.log(query);
+	// console.log(query);
 	getRunResult(query);
 
 	$('#run').removeClass("btn-secondary");

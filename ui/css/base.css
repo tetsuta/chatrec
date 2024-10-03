@@ -8,7 +8,7 @@ div#result {
 }
 
 div.user_block {
-    background-color:#F8F8E8;
+    /* background-color:#F8F8E8; */
     text-align: right;
 }
 
@@ -20,7 +20,7 @@ div.user_utt {
 }
 
 div.system_utt {
-    background-color:#F8E8F8;
+    /* background-color:#F8E8F8; */
     padding:10px 10px 10px 10px;
 }
 

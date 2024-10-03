@@ -18,8 +18,19 @@ class OpenAI
     @temp = temp
     @max_tokens = max_tokens
     @role = role
-
+    @messages = []
     @log_file = "./openai_log"
+
+    self.clear()
+  end
+
+
+  def clear()
+    @messages = []
+    @messages.push({
+                     "role" => "system",
+                     "content" => @role
+                   })
   end
 
 
@@ -31,26 +42,25 @@ class OpenAI
 
 
   def get_answer(content)
-    # body
+
+    @messages.push({
+                     "role" => "user",
+                     "content" => content
+                   })
+
+    puts "---------------"
+    puts "messages"
+    puts @messages
+
     params = {"model" => @model,
-              "messages" => [  
-                {
-                  "role" => "system",
-                  "content" => @role
-                }, 
-                {
-                  "role" => "user",
-                  "content" => content
-                }
-              ],
+              "messages" => @messages,
               "temperature" => @temp,
               "max_tokens" => @max_tokens
              }
     
     @request.body = JSON.generate(params)
     response = @ns.request(@request)
-    body_str = response.body
-    data = JSON.parse(body_str)
+    data = JSON.parse(response.body)
 
     log_data = {
       "request" => @request.body,
@@ -58,7 +68,14 @@ class OpenAI
     }
     put_log(JSON.generate(log_data))
 
-    return data["choices"][0]["message"]["content"]
+    system_utterance = data["choices"][0]["message"]["content"]
+
+    @messages.push({
+                     "role" => "assistant",
+                     "content" => system_utterance
+                   })
+
+    return system_utterance
   end
 
 

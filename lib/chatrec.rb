@@ -10,7 +10,7 @@ class CHATREC
     model = "gpt-4o-mini"
     temp = 0.7
     max_tokens = 1000
-    role = ""
+    role = "あなたは有能なアシスタントです。日本語で答えます。"
     @oai = OpenAI.new(uri, key, model, temp, max_tokens, role)
   end
 

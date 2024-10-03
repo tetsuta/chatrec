@@ -1,11 +1,11 @@
 
 * todo
-** DONE append new result to old ones
-** connect to chatgpt
 ** store and restore function
+** loging function
 ** サーバを起動したときに config.jsで指定する URLを書き換えるようにする
-
-
+** DONE use context on chatGPT
+** DONE append new result to old ones
+** DONE connect to chatgpt
 * Setting
 # ============================================================ #
 #+SEQ_TODO: TODO GOING WAITING PENDING DONE
