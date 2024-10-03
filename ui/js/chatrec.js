@@ -37,12 +37,12 @@ var Codex = function() {
 		    call_process();
 		}
 	    }
-	    // console.log(e.key);
-	    // console.log(e.keyCode);
+	    console.log(e.key);
+	    console.log(e.keyCode);
 	});
 
 
-	$('#codetext').on('keyup', function(e) {
+	$('#user_query').on('keyup', function(e) {
 	    if (e.key == "Control") {
 		on_control = false;
 	    }

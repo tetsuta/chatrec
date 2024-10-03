@@ -1,16 +1,24 @@
-require 'open3'
 require 'json'
-
 require_relative './config'
+require_relative './openai'
 
 class CHATREC
   def initialize()
+
+    uri = "https://api.openai.com/v1/chat/completions"
+    key = "Bearer #{OpenAI_Key}"
+    model = "gpt-4o-mini"
+    temp = 0.7
+    max_tokens = 1000
+    role = ""
+    @oai = OpenAI.new(uri, key, model, temp, max_tokens, role)
   end
 
   def run(query)
     
     sid = "SID"
     timestamp = Time.now.strftime("%Y/%m/%d %H:%M:%S")
+    response = @oai.get_answer(query)
 
     buffer = []
     # buffer.push("Success: (#{timestamp})<br>\n")
@@ -23,7 +31,7 @@ class CHATREC
     buffer.push("")
 
     buffer.push("<div class=\"system_utt\">")
-    buffer.push("わたし、#{query}については知りません。")
+    buffer.push(response)
     buffer.push("</div>")
     buffer.push("")
 
