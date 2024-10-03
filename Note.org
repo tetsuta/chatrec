@@ -1,0 +1,22 @@
+
+* todo
+** DONE append new result to old ones
+** connect to chatgpt
+** store and restore function
+** サーバを起動したときに config.jsで指定する URLを書き換えるようにする
+
+
+* Setting
+# ============================================================ #
+#+SEQ_TODO: TODO GOING WAITING PENDING DONE
+#+STARTUP: overview
+#+TAGS: OFFICE(o) CODING(c) RESEARCH(r) MAIL(m) THINK(t)
+#+LANGUAGE: ja
+#+OPTIONS: num:2 H:5 toc:nil TeX:t
+#+LaTeX_CLASS: jarticle
+#+LATEX_CLASS_OPTIONS: [11pt, a4paper]
+#+SETUPFILE: org-html-themes/org/theme-readtheorg-local.setup
+##+SETUPFILE: org-html-themes/org/theme-bigblow-local.setup
+# ============================================================ #
+   
+* end

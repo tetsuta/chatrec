@@ -17,7 +17,8 @@ var Codex = function() {
 		query: query
 	    }),
         }).done(function(data) {
-	    $('#result').html(data.message);
+	    var new_content = $('#result').html() + data.message;
+	    $('#result').html(new_content);
         });
     }
 
