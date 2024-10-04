@@ -12,7 +12,6 @@ var Codex = function() {
         $.ajax({
             type: 'POST',
             url: new Config().getUrl() + '/',
-            async: false,
             data: JSON.stringify({
                 mode: "run",
 		user_id: user_id,
@@ -22,6 +21,13 @@ var Codex = function() {
 	    var new_content = $('#result').html() + data.message;
 	    $('#result').html(new_content);
 	    $("html,body").animate({scrollTop:$('#user_query').offset().top});
+	    
+	    $('#run').removeClass("btn-secondary");
+	    $('#run').addClass("btn-primary");
+	    $('#user_query').attr("disabled", false);
+	    $('#status').html("<br><br>");
+	    on_run = false;
+	    $('#user_query').val("");
         });
     }
 
@@ -30,6 +36,15 @@ var Codex = function() {
 	    if (e.key == "Control") {
 		on_control = true;
 	    }
+
+	    if (e.key == 'a') {
+		console.log("a");
+	    }
+
+	    if (e.key == 'b') {
+		console.log("b");
+	    }
+
 	    key_down_code = e.keyCode;
 	    // console.log(e.key);
 	    // console.log(e.keyCode);
@@ -59,6 +74,7 @@ var Codex = function() {
 	});
     }
 
+
     function call_process() {
 	var user_id = $('#user_id').val();
 
@@ -74,13 +90,11 @@ var Codex = function() {
 	} else {	
 	    $('#run').removeClass("btn-primary");
 	    $('#run').addClass("btn-secondary");
+	    $('#status').html("考え中...");
+	    $('#user_query').attr("disabled", true);
 	    on_run = true;
-	    getRunResult(query, user_id);
-	    $('#run').removeClass("btn-secondary");
-	    $('#run').addClass("btn-primary");
-	    on_run = false;
 
-	    $('#user_query').val("");
+	    getRunResult(query, user_id);
 	}
     }
 

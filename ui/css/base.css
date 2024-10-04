@@ -24,6 +24,9 @@ div.system_utt {
     padding:10px 10px 10px 10px;
 }
 
+div#status {
+    color: red;
+}
 
 #user_query {
     /* width: 100%; */
