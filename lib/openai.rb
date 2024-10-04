@@ -3,6 +3,9 @@ require 'json'
 
 class OpenAI
   def initialize(uri, key, model, temp, max_tokens, role, enable_cache = false)
+    @cache_file = "./cache_openai"
+    @response_cache = {}
+
     uri = URI.parse(uri)
     @ns = Net::HTTP.new(uri.host, uri.port)
     @ns.use_ssl = true
@@ -15,15 +18,16 @@ class OpenAI
     @request['Authorization'] = key
 
     @enable_cache = enable_cache
+    if @enable_cache == true
+      read_cache_from_log()
+    end
 
     @model = model
     @temp = temp
     @max_tokens = max_tokens
     @role = role
     @messages = []
-    @log_file = "./openai_log"
 
-    @response_cache = {}
 
     self.clear()
   end
@@ -35,13 +39,6 @@ class OpenAI
                      "role" => "system",
                      "content" => @role
                    })
-  end
-
-
-  def put_log(content)
-    File.open(@log_file, "a"){|fp|
-      fp.puts content
-    }
   end
 
 
@@ -72,7 +69,7 @@ class OpenAI
     data = JSON.parse(response.body)
 
     log_data = {
-      "request" => @request.body,
+      "request" => params,
       "response" => data
     }
     put_log(JSON.generate(log_data))
@@ -94,5 +91,44 @@ class OpenAI
 
   def close()
   end
+
+
+  private
+
+  def put_log(content)
+    File.open(@cache_file, "a"){|fp|
+      fp.puts content
+    }
+  end
+
+
+  def read_cache_from_log()
+    if FileTest.exist?(@cache_file)
+
+      File.open(@cache_file){|fp|
+        fp.each_line{|line|
+          data = JSON.parse(line.chomp)
+          user_utt = nil
+          # puts data["request"]["messages"]
+          data["request"]["messages"].each{|msg|
+            if msg["role"] == "user"
+              user_utt = msg["content"]
+            end
+          }
+          system_utt = data["response"]["choices"][0]["message"]["content"]
+          puts "-----------"
+          puts user_utt
+          puts "---"
+          puts system_utt
+          @response_cache[user_utt] = system_utt
+        }
+      }
+      
+
+    end
+
+  end
+
+
 
 end

@@ -21,6 +21,10 @@ format_html(text)
 ** DONE use context on chatGPT
 ** DONE append new result to old ones
 ** DONE connect to chatgpt
+
+* Operation
+実運用の際には chatrec.rbの enable_cacheを falseにする。
+
 * Setting
 # ============================================================ #
 #+SEQ_TODO: TODO GOING WAITING PENDING DONE
