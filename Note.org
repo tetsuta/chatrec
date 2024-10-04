@@ -1,6 +1,7 @@
 * todo
-** add clear button
 ** store and restore function
+** サーバを起動したときに config.jsで指定する URLを書き換えるようにする
+** DONE add clear button
 ** DONE store log in chatrec.rb instead of openai.rb
 ** DONE stop working without name
 ** DONE add thinking message
@@ -16,7 +17,6 @@ format_html(text)
 富士山の高さは
 どこから登るのがいい？
 
-** サーバを起動したときに config.jsで指定する URLを書き換えるようにする
 ** DONE make cache for open AI
 ** DONE use context on chatGPT
 ** DONE append new result to old ones

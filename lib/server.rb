@@ -92,12 +92,17 @@ s.mount_proc('/'){|request, response|
     case mode
     when "run"
       $logger.info("connection: :#{request.peeraddr.to_s}")
-      $logger.info("getAllReport")
+      $logger.info("run")
       user_id = userInput["user_id"]
       query = userInput["query"]
       message = chatrec.run(query, user_id)
       data["message"] = message
       response.body = JSON.generate(data)
+    when "clear"
+      $logger.info("connection: :#{request.peeraddr.to_s}")
+      $logger.info("clear")
+      chatrec.clear()
+      response.body = JSON.generate({})
     end
 
   rescue Exception => e

@@ -20,6 +20,12 @@ class CHATREC
   end
 
 
+  def clear()
+    @oai.clear()
+    puts "CLEAR!!!"
+  end
+
+
   def run(query, user_id)
     sid = "SID"
     timestamp = Time.now.strftime("%Y/%m/%d %H:%M:%S")
@@ -49,12 +55,6 @@ class CHATREC
   private
 
   def store_to_corpus(timestamp, user_id, query, response)
-    # puts "---------------"
-    # puts timestamp
-    # puts user_id
-    # puts query
-    # puts response
-
     data = {
       "timestamp" => timestamp,
       "user_id" => user_id,

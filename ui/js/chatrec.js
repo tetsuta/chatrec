@@ -8,6 +8,20 @@ var Codex = function() {
 	setupControlls();
     }
 
+    function call_clear(){
+        $.ajax({
+            type: 'POST',
+            url: new Config().getUrl() + '/',
+            data: JSON.stringify({
+                mode: "clear"
+	    }),
+        }).done(function(data) {
+	    $('#result').html("");
+	    $("html,body").animate({scrollTop:$('#user_query').offset().top});
+	    $('#user_query').focus();
+        });
+    }
+
     function getRunResult(query, user_id){
         $.ajax({
             type: 'POST',
@@ -28,7 +42,7 @@ var Codex = function() {
 	    $('#status').html("<br><br>");
 	    on_run = false;
 	    $('#user_query').val("");
-	    $('#user_query').val("").focus();
+	    $('#user_query').focus();
         });
     }
 
@@ -61,8 +75,9 @@ var Codex = function() {
 	    }
 	});
 
-	// $('#clear').on('click', function() {
-	// });
+	$('#clear').on('click', function() {
+	    call_clear()
+	});
 
 	$('#run').on('click', function() {
 	    if (on_run == false) {
