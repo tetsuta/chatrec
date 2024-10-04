@@ -72,7 +72,7 @@ class OpenAI
       "request" => params,
       "response" => data
     }
-    put_log(JSON.generate(log_data))
+    store_cache(JSON.generate(log_data))
 
     system_utterance = data["choices"][0]["message"]["content"]
 
@@ -93,9 +93,10 @@ class OpenAI
   end
 
 
+
   private
 
-  def put_log(content)
+  def store_cache(content)
     File.open(@cache_file, "a"){|fp|
       fp.puts content
     }
@@ -116,10 +117,10 @@ class OpenAI
             end
           }
           system_utt = data["response"]["choices"][0]["message"]["content"]
-          puts "-----------"
-          puts user_utt
-          puts "---"
-          puts system_utt
+          # puts "-----------"
+          # puts user_utt
+          # puts "---"
+          # puts system_utt
           @response_cache[user_utt] = system_utt
         }
       }

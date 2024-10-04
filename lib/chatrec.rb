@@ -18,7 +18,11 @@ class CHATREC
   end
 
   def format_html(text)
-    return text
+    output = []
+    text.each_line{|line|
+      output.push(line.gsub(/\*\*([^\*]+)\*\*/){|match| "<b>#{$1}</b>"})
+    }
+    return output.join("<br>")
   end
 
 
