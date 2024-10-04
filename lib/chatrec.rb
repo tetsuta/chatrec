@@ -11,7 +11,10 @@ class CHATREC
     temp = 0.7
     max_tokens = 1000
     role = "あなたは有能なアシスタントです。日本語で答えます。"
-    @oai = OpenAI.new(uri, key, model, temp, max_tokens, role)
+
+    # enable_cache = false
+    enable_cache = true
+    @oai = OpenAI.new(uri, key, model, temp, max_tokens, role, enable_cache)
   end
 
   def format_html(text)

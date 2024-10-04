@@ -2,7 +2,7 @@ require 'net/https'
 require 'json'
 
 class OpenAI
-  def initialize(uri, key, model, temp, max_tokens, role)
+  def initialize(uri, key, model, temp, max_tokens, role, enable_cache = false)
     uri = URI.parse(uri)
     @ns = Net::HTTP.new(uri.host, uri.port)
     @ns.use_ssl = true
@@ -14,12 +14,16 @@ class OpenAI
     @request['Content-Type'] = 'application/json'
     @request['Authorization'] = key
 
+    @enable_cache = enable_cache
+
     @model = model
     @temp = temp
     @max_tokens = max_tokens
     @role = role
     @messages = []
     @log_file = "./openai_log"
+
+    @response_cache = {}
 
     self.clear()
   end
@@ -42,6 +46,11 @@ class OpenAI
 
 
   def get_answer(content)
+
+    if @enable_cache == true && @response_cache.has_key?(content)
+      puts "Cache used"
+      return @response_cache[content]
+    end
 
     @messages.push({
                      "role" => "user",
@@ -74,6 +83,10 @@ class OpenAI
                      "role" => "assistant",
                      "content" => system_utterance
                    })
+
+    if @enable_cache
+      @response_cache[content] = system_utterance
+    end
 
     return system_utterance
   end

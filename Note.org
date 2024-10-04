@@ -1,5 +1,5 @@
-
 * todo
+** skip enter
 ** store log in chatrec.rb instead of openai.rb
 ** replace markdown into html
 format_html(text)
@@ -10,8 +10,6 @@ format_html(text)
 富士山の高さは
 どこから登るのがいい？
 
-
-
 ** store user id
 ** add thinking message
 ** add clear button
@@ -19,6 +17,7 @@ format_html(text)
 ** store and restore function
 ** loging function
 ** サーバを起動したときに config.jsで指定する URLを書き換えるようにする
+** DONE make cache for open AI
 ** DONE use context on chatGPT
 ** DONE append new result to old ones
 ** DONE connect to chatgpt
