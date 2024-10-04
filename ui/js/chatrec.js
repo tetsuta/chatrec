@@ -32,6 +32,10 @@ var Codex = function() {
     }
 
     function setupControlls() {
+	$('#user_id').on('focusin', function() {
+	    $('#warning').html("");
+	});
+
 	$('#user_query').on('keydown', function(e) {
 	    if (e.key == "Control") {
 		on_control = true;
@@ -80,6 +84,8 @@ var Codex = function() {
 
 	if (user_id == "") {
 	    console.log("empty ID!")
+	    $('#warning').html("ページの先頭にある User Infoにニックネームを入力してください");
+	    return;
 	} else {
 	    console.log(user_id)
 	}
