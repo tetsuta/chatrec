@@ -120,7 +120,10 @@ class OpenAI
               user_utt = msg["content"]
             end
           }
-          system_utt = data["response"]["choices"][0]["message"]["content"]
+          if data["response"]["choices"] != nil
+            system_utt = data["response"]["choices"][0]["message"]["content"]
+          end
+
           # puts "-----------"
           # puts user_utt
           # puts "---"

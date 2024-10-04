@@ -22,6 +22,30 @@ var Codex = function() {
         });
     }
 
+    function call_history(){
+	var user_id = $('#user_id').val();
+
+	if (user_id == "") {
+	    $('#warning').html("ページの先頭にある User Infoにニックネームを入力してください");
+	    return;
+	}
+
+        $.ajax({
+            type: 'POST',
+            url: new Config().getUrl() + '/',
+            data: JSON.stringify({
+                mode: "history",
+		user_id: user_id
+	    }),
+        }).done(function(data) {
+	    $('#result').html(data.message);
+	    $("html,body").animate({scrollTop:$('#user_query').offset().top});
+	    $('#status').html("<br><br>");
+	    $('#user_query').focus();
+        });
+    }
+
+
     function getRunResult(query, user_id){
         $.ajax({
             type: 'POST',
@@ -79,6 +103,10 @@ var Codex = function() {
 	    call_clear()
 	});
 
+	$('#history').on('click', function() {
+	    call_history()
+	});
+
 	$('#run').on('click', function() {
 	    if (on_run == false) {
 		call_process();
@@ -91,11 +119,8 @@ var Codex = function() {
 	var user_id = $('#user_id').val();
 
 	if (user_id == "") {
-	    // console.log("empty ID!")
 	    $('#warning').html("ページの先頭にある User Infoにニックネームを入力してください");
 	    return;
-	} else {
-	    // console.log(user_id)
 	}
 
 	var query = $('#user_query').val();

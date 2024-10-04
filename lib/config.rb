@@ -3,6 +3,8 @@
 CorpusFile = "../log/corpus"
 CacheFile = "../log/cache_openai"
 LogFile = "../log/server.log"
+HistoryFile = "../log/history"
+
 LogLevel = :debug
 LogAge = 7
 LogSize = 10

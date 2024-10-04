@@ -20,14 +20,11 @@ Usage:
  ./connect.rb [-h] [-m mode]
 
 mode:
-getAllInfo
-getUpdateReport
-putCross
-removeCross
+stop
 
 "
 
-mode = nil
+mode = "stop"
 opts.each{|opt, arg|
   case opt
   when "--help"
@@ -52,74 +49,12 @@ header = {'Content-Type' => 'application/json'}
 
 
 case mode
-when "getAllInfo"
+when "stop"
   data = Hash::new()
   data["mode"] = mode
-  response = http.post(path, JSON.generate(data), header)
-  data = JSON.parse(response.body)
-
-  reports = data["reports"]
-  if reports != nil
-    reports.each{|report|
-      p report
-    }
-  end
-
-  crosses = data["crosses"]
-  if crosses != nil
-    crosses.each{|cross|
-      p cross
-    }
-  end
-
-when "getTraces"
-  data = Hash::new()
-  data["mode"] = mode
-  data["time"] = "2023/12/13 13:23"
-  response = http.post(path, JSON.generate(data), header)
-  data = JSON.parse(response.body)
-  p data
-
-when "getUpdateReport"
-  data = Hash::new()
-  data["mode"] = mode
-  response = http.post(path, JSON.generate(data), header)
-  data = JSON.parse(response.body)
-  p data
-
-when "putCross"
-  data = Hash::new()
-  data["mode"] = mode
-  data["lat"] = 36.95107821492136
-  data["lon"] = 140.91079473495486
-
-  response = http.post(path, JSON.generate(data), header)
-  data = JSON.parse(response.body)
-  p data
-
-when "removeCross"
-  data = Hash::new()
-  data["mode"] = mode
-  data["id"] = "c1"
-
   response = http.post(path, JSON.generate(data), header)
   data = JSON.parse(response.body)
   p data
 
 end
-
-
-
-
-
-# data["lat"] = 36.957683077113025
-# data["lon"] = 140.9071254730225
-# response = http.post(path, JSON.generate(data), header)
-# p response
-
-
-# responed_data = JSON.parse(response.body)
-# puts responed_data["text"]
-# puts responed_data["html"]
-
 

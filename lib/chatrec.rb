@@ -2,6 +2,7 @@ require 'json'
 require_relative './config'
 require_relative './openai'
 
+# ==================================================
 class CHATREC
   def initialize()
 
@@ -17,6 +18,9 @@ class CHATREC
     @oai = OpenAI.new(uri, key, model, temp, max_tokens, role, enable_cache, CacheFile)
 
     @corpus_file = CorpusFile
+    @history_file = HistoryFile
+    @history = {}
+    read_history_file()
   end
 
 
@@ -45,14 +49,59 @@ class CHATREC
 
     store_to_corpus(timestamp, user_id, query, response)
 
+    if @history.has_key?(user_id)
+      @history[user_id].push(buffer.join("\n"))
+      if @history[user_id].size > 3
+        @history[user_id].shift
+        puts "cut!!"
+        puts @history[user_id].size
+      end
+    else
+      @history[user_id] = [buffer.join("\n")]
+    end
+
     return buffer.join("\n")
   end
 
+
+  def load_history(user_id)
+    if @history.has_key?(user_id)
+      return @history[user_id].join("\n")
+    else
+      return "(履歴はありません)<br>"
+    end
+  end
+
+
   def close()
+    puts "closing..."
+    store_history()
+    puts "done"
   end
 
 
   private
+
+  def store_history()
+    File.open(@history_file, "w"){|fp|
+      fp.write(JSON.generate(@history))
+    }
+
+    # format of history
+    # hash
+    # key: user_id
+    # value: list of string
+
+
+  end
+
+  def read_history_file()
+    if FileTest.exist?(@history_file)
+      File.open(@history_file){|fp|
+        @history = JSON.parse(fp.read())
+      }
+    end
+  end
 
   def store_to_corpus(timestamp, user_id, query, response)
     data = {

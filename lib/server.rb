@@ -103,6 +103,18 @@ s.mount_proc('/'){|request, response|
       $logger.info("clear")
       chatrec.clear()
       response.body = JSON.generate({})
+    when "stop"
+      $logger.info("connection: :#{request.peeraddr.to_s}")
+      $logger.info("stop")
+      chatrec.close()
+      response.body = JSON.generate({})
+    when "history"
+      $logger.info("connection: :#{request.peeraddr.to_s}")
+      $logger.info("history")
+      user_id = userInput["user_id"]
+      message = chatrec.load_history(user_id)
+      data["message"] = message
+      response.body = JSON.generate(data)
     end
 
   rescue Exception => e
