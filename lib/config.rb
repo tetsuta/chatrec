@@ -1,5 +1,7 @@
 # your own setting
 
+CorpusFile = "../log/corpus"
+CacheFile = "../log/cache_openai"
 LogFile = "../log/server.log"
 LogLevel = :debug
 LogAge = 7

@@ -2,8 +2,8 @@ require 'net/https'
 require 'json'
 
 class OpenAI
-  def initialize(uri, key, model, temp, max_tokens, role, enable_cache = false)
-    @cache_file = "./cache_openai"
+  def initialize(uri, key, model, temp, max_tokens, role, enable_cache = false, cache_file)
+    @cache_file = cache_file
     @response_cache = {}
 
     uri = URI.parse(uri)
@@ -46,6 +46,7 @@ class OpenAI
 
     if @enable_cache == true && @response_cache.has_key?(content)
       puts "Cache used"
+      sleep(1.0)
       return @response_cache[content]
     end
 
@@ -68,11 +69,14 @@ class OpenAI
     response = @ns.request(@request)
     data = JSON.parse(response.body)
 
-    log_data = {
-      "request" => params,
-      "response" => data
-    }
-    store_cache(JSON.generate(log_data))
+
+    if @enable_cache == true
+      log_data = {
+        "request" => params,
+        "response" => data
+      }
+      store_cache(JSON.generate(log_data))
+    end
 
     system_utterance = data["choices"][0]["message"]["content"]
 

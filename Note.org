@@ -1,9 +1,8 @@
 * todo
-** store log in chatrec.rb instead of openai.rb
-** store user id
 ** add clear button
-** stop working without name
 ** store and restore function
+** DONE store log in chatrec.rb instead of openai.rb
+** DONE stop working without name
 ** DONE add thinking message
 ** DONE move view to query after showing response
 ** DONE skip empty input

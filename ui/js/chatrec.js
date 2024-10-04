@@ -28,6 +28,7 @@ var Codex = function() {
 	    $('#status').html("<br><br>");
 	    on_run = false;
 	    $('#user_query').val("");
+	    $('#user_query').val("").focus();
         });
     }
 
@@ -39,14 +40,6 @@ var Codex = function() {
 	$('#user_query').on('keydown', function(e) {
 	    if (e.key == "Control") {
 		on_control = true;
-	    }
-
-	    if (e.key == 'a') {
-		console.log("a");
-	    }
-
-	    if (e.key == 'b') {
-		console.log("b");
 	    }
 
 	    key_down_code = e.keyCode;
@@ -83,11 +76,11 @@ var Codex = function() {
 	var user_id = $('#user_id').val();
 
 	if (user_id == "") {
-	    console.log("empty ID!")
+	    // console.log("empty ID!")
 	    $('#warning').html("ページの先頭にある User Infoにニックネームを入力してください");
 	    return;
 	} else {
-	    console.log(user_id)
+	    // console.log(user_id)
 	}
 
 	var query = $('#user_query').val();
