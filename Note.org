@@ -1,4 +1,5 @@
 * todo
+** move view to query after showing response
 ** skip enter
 ** store log in chatrec.rb instead of openai.rb
 ** store user id

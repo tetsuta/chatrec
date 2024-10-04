@@ -20,9 +20,22 @@ class CHATREC
   def format_html(text)
     output = []
     text.each_line{|line|
-      output.push(line.gsub(/\*\*([^\*]+)\*\*/){|match| "<b>#{$1}</b>"})
+      line.chomp!
+
+      if line =~ /^### /
+        line.gsub!(/^### (.+)$/){|match| "<h5>#{$1}</h5>"}
+        output.push(line)
+      else
+        line.gsub!(/\*\*([^\*]+)\*\*/){|match| "<b>#{$1}</b>"}
+        output.push(line + "<br>")
+      end
     }
-    return output.join("<br>")
+
+    # puts "------------------------------ format"
+    # puts text
+    # puts "------------------------------"
+    # puts output.join("\n")
+    return output.join("\n")
   end
 
 
