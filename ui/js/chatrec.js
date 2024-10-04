@@ -21,6 +21,7 @@ var Codex = function() {
         }).done(function(data) {
 	    var new_content = $('#result').html() + data.message;
 	    $('#result').html(new_content);
+	    $("html,body").animate({scrollTop:$('#user_query').offset().top});
         });
     }
 
