@@ -1,6 +1,5 @@
 * todo
 ** move view to query after showing response
-** skip enter
 ** store log in chatrec.rb instead of openai.rb
 ** store user id
 ** add thinking message
@@ -8,6 +7,8 @@
 ** stop working without name
 ** store and restore function
 ** loging function
+** DONE skip empty input
+** DONE skip enter
 ** DONE replace markdown into html
 format_html(text)
 

@@ -2,6 +2,7 @@ var Codex = function() {
     var on_run = false;
     var on_shift = false;
     var on_control = false;
+    var key_down_code = null;
 
     function main() {
 	setupControlls();
@@ -28,16 +29,7 @@ var Codex = function() {
 	    if (e.key == "Control") {
 		on_control = true;
 	    }
-
-	    if (e.keyCode == 9) { // Tab
-		this.setRangeText('\t', this.selectionStart, this.selectionEnd, 'end');
-		return false;
-	    }
-	    if (e.key == "Enter") {
-		// if (on_control == true) {
-		    call_process();
-		// }
-	    }
+	    key_down_code = e.keyCode;
 	    // console.log(e.key);
 	    // console.log(e.keyCode);
 	});
@@ -47,7 +39,13 @@ var Codex = function() {
 	    if (e.key == "Control") {
 		on_control = false;
 	    }
-
+	    
+	    // かな漢字変換中の Enterではなく、漢字が確定後の Enterのみを通す
+	    if ((e.key == "Enter") && (e.keyCode == key_down_code)) {
+		// if (on_control == true) {
+		call_process();
+		// }
+	    }
 	});
 
 	// $('#clear').on('click', function() {
@@ -69,19 +67,20 @@ var Codex = function() {
 	    console.log(user_id)
 	}
 
-	$('#run').removeClass("btn-primary");
-	$('#run').addClass("btn-secondary");
-	on_run = true;
 	var query = $('#user_query').val();
-	// console.log(query);
+	if (query == "") {
+	    console.log("empty");
+	} else {	
+	    $('#run').removeClass("btn-primary");
+	    $('#run').addClass("btn-secondary");
+	    on_run = true;
+	    getRunResult(query, user_id);
+	    $('#run').removeClass("btn-secondary");
+	    $('#run').addClass("btn-primary");
+	    on_run = false;
 
-	getRunResult(query, user_id);
-
-	$('#run').removeClass("btn-secondary");
-	$('#run').addClass("btn-primary");
-	on_run = false;
-
-	$('#user_query').val("");
+	    $('#user_query').val("");
+	}
     }
 
     return {
