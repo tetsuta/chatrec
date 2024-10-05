@@ -26,7 +26,7 @@ var Codex = function() {
 	var user_id = $('#user_id').val();
 
 	if (user_id == "") {
-	    $('#warning').html("ページの先頭にある User Infoにニックネームを入力してください");
+	    $('#warning1').html("ページの先頭にある User Infoにニックネームを入力してください");
 	    return;
 	}
 
@@ -72,7 +72,11 @@ var Codex = function() {
 
     function setupControlls() {
 	$('#user_id').on('focusin', function() {
-	    $('#warning').html("");
+	    $('#warning1').html("");
+	});
+
+	$('#user_query').on('focusin', function() {
+	    $('#warning2').html("");
 	});
 
 	$('#user_query').on('keydown', function(e) {
@@ -119,13 +123,14 @@ var Codex = function() {
 	var user_id = $('#user_id').val();
 
 	if (user_id == "") {
-	    $('#warning').html("ページの先頭にある User Infoにニックネームを入力してください");
+	    $('#warning1').html("ページの先頭にある User Infoにニックネームを入力してください");
 	    return;
 	}
 
 	var query = $('#user_query').val();
 	if (query == "") {
 	    console.log("empty");
+	    $('#warning2').html("左側に何か入力した後にこのボタンを押してください");
 	} else {	
 	    $('#run').removeClass("btn-primary");
 	    $('#run').addClass("btn-secondary");

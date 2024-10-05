@@ -28,8 +28,12 @@ div#status {
     color: red;
 }
 
-div#warning {
+div#warning1 {
     background-color:#FFE4E1;
+}
+
+div#warning2 {
+    background-color:#E4FFE1;
 }
 
 #user_query {
