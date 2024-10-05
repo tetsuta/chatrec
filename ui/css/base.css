@@ -24,6 +24,14 @@ div.system_utt {
     padding:10px 10px 10px 10px;
 }
 
+#history {
+    margin:1px;
+}
+
+#clear {
+    margin:1px;
+}
+
 div#status {
     color: red;
 }
