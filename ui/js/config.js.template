@@ -1,5 +1,5 @@
 var Config = function() {
-    var serverName = "localhost";
+    var serverName = "_SERVER_HOST_ADDRESS_";
     var port = "8103";
 
     function getUrl() {

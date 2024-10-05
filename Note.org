@@ -1,5 +1,5 @@
 * todo
-** サーバを起動したときに config.jsで指定する URLを書き換えるようにする
+** DONE サーバを起動したときに config.jsで指定する URLを書き換えるようにする
 ** DONE store and restore function
 ** DONE add clear button
 ** DONE store log in chatrec.rb instead of openai.rb

@@ -6,6 +6,7 @@ require 'webrick'
 require 'webrick/https'
 require 'net/protocol'
 require 'logger'
+require 'socket'
 
 require_relative './config'
 require_relative './chatrec'
@@ -35,6 +36,25 @@ opts.each{|opt, arg|
   end
 }
 
+
+# --------------------------------------------------
+def my_address
+ udp = UDPSocket.new
+ # クラスBの先頭アドレス,echoポート 実際にはパケットは送信されない。
+ udp.connect("128.0.0.0", 7)
+ adrs = Socket.unpack_sockaddr_in(udp.getsockname)[1]
+ udp.close
+ return adrs
+end
+
+ip_address = my_address
+config_template = nil
+File.open(CONFIG_JS_TEMPLATE){|fp|
+  config_template = fp.read
+}
+File.open(CONFIG_JS, "w"){|fp|
+  fp.write(config_template.sub("_SERVER_HOST_ADDRESS_", ip_address))
+}
 
 # --------------------------------------------------
 $logger = Logger.new(LogFile, LogAge, LogSize*1024*1024)
