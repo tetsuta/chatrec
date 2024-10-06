@@ -13,8 +13,8 @@ class CHATREC
     max_tokens = 1000
     role = "あなたは有能なアシスタントです。日本語で答えます。"
 
-    # enable_cache = false
-    enable_cache = true
+    enable_cache = false
+    # enable_cache = true
     @oai = OpenAI.new(uri, key, model, temp, max_tokens, role, enable_cache, CacheFile)
 
     @corpus_file = CorpusFile
