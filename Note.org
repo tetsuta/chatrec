@@ -1,4 +1,11 @@
 * todo
+** httpsにする
+** スマホでも表示できるようにする
+** マニュアルを作る
+** クリア操作を記録する
+** cacheをオフにする
+** ユーザ毎に openAIの履歴を管理する
+** DONE IP addressの自動設定を切る
 ** DONE サーバを起動したときに config.jsで指定する URLを書き換えるようにする
 ** DONE store and restore function
 ** DONE add clear button
