@@ -27,12 +27,15 @@ class CHATREC
 
   def clear(user_id)
     @oai.clear(user_id)
+    type = "clear"
+    query = ""
+    response = ""
+    store_to_corpus(user_id, type, query, response)
     puts "CLEAR!!!"
   end
 
 
   def run(query, user_id)
-    timestamp = Time.now.strftime("%Y/%m/%d %H:%M:%S")
     response = @oai.get_answer(query, user_id)
 
     buffer = []
@@ -47,7 +50,8 @@ class CHATREC
     buffer.push("</div>")
     buffer.push("")
 
-    store_to_corpus(timestamp, user_id, query, response)
+    type = "dialog"
+    store_to_corpus(user_id, type, query, response)
 
     if @history.has_key?(user_id)
       @history[user_id].push(buffer.join("\n"))
@@ -89,10 +93,12 @@ class CHATREC
     }
   end
 
-  def store_to_corpus(timestamp, user_id, query, response)
+  def store_to_corpus(user_id, type, query, response)
+    timestamp = Time.now.strftime("%Y/%m/%d %H:%M:%S")
     data = {
       "timestamp" => timestamp,
       "user_id" => user_id,
+      "type" => type,
       "user_uttr" => query,
       "system_uttr" => response
     }

@@ -1,6 +1,6 @@
 * todo
 ** スマホでも表示できるようにする
-** クリア操作を記録する
+** DONE store clear command
 ** DONE manage openAI history for each user
 ** DONE store history using DB
 ** DONE add agreement page
