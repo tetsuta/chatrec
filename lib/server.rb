@@ -86,6 +86,9 @@ if (UseSSL)
   options.store(:SSLPrivateKey, OpenSSL::PKey::RSA.new(open(SSLCertKeyFile).read))
 end
 
+# SSLのバージョンに由来するエラーを出さないための設定
+SSL_OP_IGNORE_UNEXPECTED_EOF = true
+
 s = WEBrick::HTTPServer.new(options)
 
 s.mount_proc('/'){|request, response|
