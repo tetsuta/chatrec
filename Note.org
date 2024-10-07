@@ -1,8 +1,10 @@
 * todo
-** スマホでも表示できるようにする
 ** マニュアルを作る
+** スマホでも表示できるようにする
 ** クリア操作を記録する
 ** ユーザ毎に openAIの履歴を管理する
+** historyの保存方法をかしこくする。DBの方がよい？
+** DONE add agreement page
 ** DONE cacheをオフにする
 ** DONE httpsにする
 ** DONE IP addressの自動設定を切る

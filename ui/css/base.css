@@ -32,6 +32,16 @@ div.system_utt {
     margin:1px;
 }
 
+.notice {
+    margin: 0px;
+    width: 100%;
+    background-color:#FFE9E9;
+}
+
+div.notice_message {
+    margin: 20px;
+}
+
 div#status {
     color: red;
 }
