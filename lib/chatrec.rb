@@ -1,4 +1,5 @@
 require 'json'
+require 'leveldb'
 require_relative './config'
 require_relative './openai'
 
@@ -18,9 +19,9 @@ class CHATREC
     @oai = OpenAI.new(uri, key, model, temp, max_tokens, role, enable_cache, CacheFile)
 
     @corpus_file = CorpusFile
-    @history_file = HistoryFile
+    @history_db = LevelDB::DB.new(HistoryFile)
     @history = {}
-    read_history_file()
+    read_history_db()
   end
 
 
@@ -59,6 +60,7 @@ class CHATREC
     else
       @history[user_id] = [buffer.join("\n")]
     end
+    @history_db[user_id] = JSON.generate(@history[user_id])
 
     return buffer.join("\n")
   end
@@ -75,32 +77,17 @@ class CHATREC
 
   def close()
     puts "closing..."
-    store_history()
+    @history_db.close
     puts "done"
   end
 
 
   private
 
-  def store_history()
-    File.open(@history_file, "w"){|fp|
-      fp.write(JSON.generate(@history))
+  def read_history_db()
+    @history_db.each{|user_id|
+      @history[user_id] = JSON.parse(@history_db[user_id])
     }
-
-    # format of history
-    # hash
-    # key: user_id
-    # value: list of string
-
-
-  end
-
-  def read_history_file()
-    if FileTest.exist?(@history_file)
-      File.open(@history_file){|fp|
-        @history = JSON.parse(fp.read())
-      }
-    end
   end
 
   def store_to_corpus(timestamp, user_id, query, response)

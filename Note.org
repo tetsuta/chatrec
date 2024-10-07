@@ -3,7 +3,7 @@
 ** スマホでも表示できるようにする
 ** クリア操作を記録する
 ** ユーザ毎に openAIの履歴を管理する
-** historyの保存方法をかしこくする。DBの方がよい？
+** DONE store history using DB
 ** DONE add agreement page
 ** DONE cacheをオフにする
 ** DONE httpsにする
