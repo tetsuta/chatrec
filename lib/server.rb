@@ -84,10 +84,8 @@ if (UseSSL)
   options.store(:SSLVerifyClient, OpenSSL::SSL::VERIFY_NONE)
   options.store(:SSLCertificate, OpenSSL::X509::Certificate.new(open(SSLCertFile).read))
   options.store(:SSLPrivateKey, OpenSSL::PKey::RSA.new(open(SSLCertKeyFile).read))
+  options.store(:SSLOptions, OpenSSL::SSL::OP_ALL | OpenSSL::SSL::OP_NO_SSLv2 | OpenSSL::SSL::OP_IGNORE_UNEXPECTED_EOF)
 end
-
-# SSLのバージョンに由来するエラーを出さないための設定
-SSL_OP_IGNORE_UNEXPECTED_EOF = true
 
 s = WEBrick::HTTPServer.new(options)
 
