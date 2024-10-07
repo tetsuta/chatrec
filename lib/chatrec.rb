@@ -88,8 +88,8 @@ class CHATREC
   private
 
   def read_history_db()
-    @history_db.each{|user_id|
-      @history[user_id] = JSON.parse(@history_db[user_id])
+    @history_db.each{|user_id, val|
+      @history[user_id] = JSON.parse(val)
     }
   end
 
