@@ -3,6 +3,7 @@ var Codex = function() {
     var on_shift = false;
     var on_control = false;
     var key_down_code = null;
+    var org = null;
 
     function main() {
 	setupControlls();
@@ -24,10 +25,14 @@ var Codex = function() {
 
     function call_history(){
 	var user_id = $('#user_id').val();
-
 	if (user_id == "") {
 	    $('#warning1').html("ページの先頭にある User Infoにニックネームを入力してください");
 	    return;
+	}
+
+	org = $('#user_query').data('org');
+	if (org == null) {
+	    org = "";
 	}
 
         $.ajax({
@@ -35,7 +40,7 @@ var Codex = function() {
             url: new Config().getUrl() + '/',
             data: JSON.stringify({
                 mode: "history",
-		user_id: user_id
+		user_id: org + user_id
 	    }),
         }).done(function(data) {
 	    $('#result').html(data.message);
@@ -47,12 +52,17 @@ var Codex = function() {
 
 
     function getRunResult(query, user_id){
+	org = $('#user_query').data('org');
+	if (org == null) {
+	    org = "";
+	}
+
         $.ajax({
             type: 'POST',
             url: new Config().getUrl() + '/',
             data: JSON.stringify({
                 mode: "run",
-		user_id: user_id,
+		user_id: org + user_id,
 		query: query
 	    }),
         }).done(function(data) {
