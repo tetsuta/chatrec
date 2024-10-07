@@ -26,23 +26,23 @@ class OpenAI
     @temp = temp
     @max_tokens = max_tokens
     @role = role
-    @messages = []
-
-
-    self.clear()
+    @messages = {}
   end
 
 
-  def clear()
-    @messages = []
-    @messages.push({
+  def clear(user_id)
+    @messages[user_id] = []
+    @messages[user_id].push({
                      "role" => "system",
                      "content" => @role
                    })
   end
 
 
-  def get_answer(content)
+  def get_answer(content, user_id)
+    unless @messages.has_key?(user_id)
+      clear(user_id)
+    end
 
     if @enable_cache == true && @response_cache.has_key?(content)
       puts "Cache used"
@@ -50,17 +50,17 @@ class OpenAI
       return @response_cache[content]
     end
 
-    @messages.push({
+    @messages[user_id].push({
                      "role" => "user",
                      "content" => content
                    })
 
     # puts "---------------"
     # puts "messages"
-    # puts @messages
+    # puts @messages[user_id]
 
     params = {"model" => @model,
-              "messages" => @messages,
+              "messages" => @messages[user_id],
               "temperature" => @temp,
               "max_tokens" => @max_tokens
              }
@@ -80,7 +80,7 @@ class OpenAI
 
     system_utterance = data["choices"][0]["message"]["content"]
 
-    @messages.push({
+    @messages[user_id].push({
                      "role" => "assistant",
                      "content" => system_utterance
                    })

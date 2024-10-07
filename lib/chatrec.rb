@@ -25,16 +25,15 @@ class CHATREC
   end
 
 
-  def clear()
-    @oai.clear()
+  def clear(user_id)
+    @oai.clear(user_id)
     puts "CLEAR!!!"
   end
 
 
   def run(query, user_id)
-    sid = "SID"
     timestamp = Time.now.strftime("%Y/%m/%d %H:%M:%S")
-    response = @oai.get_answer(query)
+    response = @oai.get_answer(query, user_id)
 
     buffer = []
     buffer.push("<div class=\"user_block\">")

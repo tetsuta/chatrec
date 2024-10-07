@@ -122,7 +122,8 @@ s.mount_proc('/'){|request, response|
     when "clear"
       $logger.info("connection: :#{request.peeraddr.to_s}")
       $logger.info("clear")
-      chatrec.clear()
+      user_id = userInput["user_id"]
+      chatrec.clear(user_id)
       response.body = JSON.generate({})
     when "stop"
       $logger.info("connection: :#{request.peeraddr.to_s}")

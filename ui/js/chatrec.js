@@ -10,11 +10,26 @@ var Codex = function() {
     }
 
     function call_clear(){
+	var user_id = $('#user_id').val();
+	if (user_id == "") {
+	    $('#result').html("");
+	    $("html,body").animate({scrollTop:$('#user_query').offset().top});
+	    $('#user_query').focus();
+	    return;
+	    // user_idが指定されていなかったら、resultを消すだけでサーバは呼ばない
+	}
+
+	org = $('#user_query').data('org');
+	if (org == null) {
+	    org = "";
+	}
+
         $.ajax({
             type: 'POST',
             url: new Config().getUrl() + '/',
             data: JSON.stringify({
-                mode: "clear"
+                mode: "clear",
+		user_id: org + user_id
 	    }),
         }).done(function(data) {
 	    $('#result').html("");

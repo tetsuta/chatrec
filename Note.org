@@ -1,8 +1,7 @@
 * todo
-** マニュアルを作る
 ** スマホでも表示できるようにする
 ** クリア操作を記録する
-** ユーザ毎に openAIの履歴を管理する
+** DONE manage openAI history for each user
 ** DONE store history using DB
 ** DONE add agreement page
 ** DONE cacheをオフにする
