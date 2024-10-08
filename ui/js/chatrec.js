@@ -41,7 +41,7 @@ var Codex = function() {
     function call_history(){
 	var user_id = $('#user_id').val();
 	if (user_id == "") {
-	    $('#warning1').html("ページの先頭にある User Infoにニックネームを入力してください");
+	    $('#warning1').html("ページの先頭にある User Infoに入力してください");
 	    return;
 	}
 
@@ -148,7 +148,7 @@ var Codex = function() {
 	var user_id = $('#user_id').val();
 
 	if (user_id == "") {
-	    $('#warning1').html("ページの先頭にある User Infoにニックネームを入力してください");
+	    $('#warning1').html("ページの先頭にある User Infoに入力してください");
 	    return;
 	}
 
