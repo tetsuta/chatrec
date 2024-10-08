@@ -22,6 +22,9 @@ class CHATREC
     @history_db = LevelDB::DB.new(HistoryFile)
     @history = {}
     read_history_db()
+
+    type = "system_start"
+    store_to_corpus("", type, "", "")
   end
 
 
