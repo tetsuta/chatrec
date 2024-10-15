@@ -1,5 +1,5 @@
 * todo
-** スマホでも表示できるようにする
+** DONE スマホでも表示できるようにする
 ** DONE store clear command
 ** DONE manage openAI history for each user
 ** DONE store history using DB
@@ -31,7 +31,11 @@ format_html(text)
 ** DONE connect to chatgpt
 
 * Operation
+** server
 実運用の際には chatrec.rbの enable_cacheを falseにする。
+
+** log
+cat aws/corpus_202410* | ./lib/extract_log.rb -o aws/dump.xlsx
 
 * Setting
 # ============================================================ #

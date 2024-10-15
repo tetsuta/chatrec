@@ -42,6 +42,11 @@ div.notice_message {
     margin: 20px;
 }
 
+div#warning {
+    color: purple;
+}
+
+
 div#status {
     color: red;
 }
