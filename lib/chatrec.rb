@@ -5,7 +5,12 @@ require_relative './openai'
 
 # ==================================================
 class CHATREC
-  def initialize()
+  def initialize(user_id, history_db)
+
+    @user_id = user_id
+    @history_db = history_db
+    @history = []
+    read_history_db()
 
     uri = "https://api.openai.com/v1/chat/completions"
     key = "Bearer #{OpenAI_Key}"
@@ -14,32 +19,32 @@ class CHATREC
     max_tokens = 1000
     role = "あなたは有能なアシスタントです。日本語で答えます。"
 
+    @used_at = nil
+    set_timestamp()
+
     enable_cache = false
     # enable_cache = true
     @oai = OpenAI.new(uri, key, model, temp, max_tokens, role, enable_cache, CacheFile)
 
     @corpus_file = CorpusFile
-    @history_db = LevelDB::DB.new(HistoryFile)
-    @history = {}
-    read_history_db()
 
-    type = "system_start"
-    store_to_corpus("", type, "", "")
+    type = "initialize"
+    store_to_corpus(type, "", "")
   end
 
 
-  def clear(user_id)
-    @oai.clear(user_id)
+  def clear()
+    @oai.clear()
     type = "clear"
     query = ""
     response = ""
-    store_to_corpus(user_id, type, query, response)
+    store_to_corpus(type, query, response)
     puts "CLEAR!!!"
   end
 
 
-  def run(query, user_id)
-    response = @oai.get_answer(query, user_id)
+  def run(query)
+    response = @oai.get_answer(query)
 
     buffer = []
     buffer.push("<div class=\"user_block\">")
@@ -54,53 +59,55 @@ class CHATREC
     buffer.push("")
 
     type = "dialog"
-    store_to_corpus(user_id, type, query, response)
+    store_to_corpus(type, query, response)
 
-    if @history.has_key?(user_id)
-      @history[user_id].push(buffer.join("\n"))
-      if @history[user_id].size > 3
-        @history[user_id].shift
-        puts "cut!!"
-        puts @history[user_id].size
-      end
-    else
-      @history[user_id] = [buffer.join("\n")]
+
+    @history.push(buffer.join("\n"))
+    if @history.size > 3
+      @history.shift
     end
-    @history_db[user_id] = JSON.generate(@history[user_id])
+
+    @history_db[@user_id] = JSON.generate(@history)
 
     return buffer.join("\n")
   end
 
 
-  def load_history(user_id)
-    if @history.has_key?(user_id)
-      return @history[user_id].join("\n")
-    else
+  def load_history()
+    if @history.size == 0
       return "(履歴はありません)<br>"
+    else
+      return @history.join("\n")
     end
   end
 
 
-  def close()
-    puts "closing..."
-    @history_db.close
-    puts "done"
+  def age()
+    now = Time.now()
+    return now - @used_at
   end
 
 
   private
 
-  def read_history_db()
-    @history_db.each{|user_id, val|
-      @history[user_id] = JSON.parse(val)
-    }
+  def set_timestamp()
+    @used_at = Time.now()
   end
 
-  def store_to_corpus(user_id, type, query, response)
+  
+  def read_history_db()
+    val = @history_db[@user_id]
+    if val != nil
+      @history = JSON.parse(val)
+    end
+  end
+
+
+  def store_to_corpus(type, query, response)
     timestamp = Time.now.strftime("%Y/%m/%d %H:%M:%S")
     data = {
       "timestamp" => timestamp,
-      "user_id" => user_id,
+      "user_id" => @user_id,
       "type" => type,
       "user_uttr" => query,
       "system_uttr" => response

@@ -20,11 +20,11 @@ Usage:
  ./connect.rb [-h] [-m mode]
 
 mode:
-stop
+status
 
 "
 
-mode = "stop"
+mode = "status"
 opts.each{|opt, arg|
   case opt
   when "--help"
@@ -49,7 +49,7 @@ header = {'Content-Type' => 'application/json'}
 
 
 case mode
-when "stop"
+when "status"
   data = Hash::new()
   data["mode"] = mode
   response = http.post(path, JSON.generate(data), header)

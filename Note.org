@@ -1,4 +1,7 @@
 * todo
+** クライアント毎にユニークな hash値を発行し、接続を区別する
+** 長く使われていないインスタンスは削除する
+** DONE 各接続毎にインスタンスを分ける
 ** DONE スマホでも表示できるようにする
 ** DONE store clear command
 ** DONE manage openAI history for each user

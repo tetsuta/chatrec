@@ -2,6 +2,7 @@
 # coding: utf-8
 
 require 'getoptlong'
+require 'leveldb'
 require 'webrick'
 require 'webrick/https'
 require 'net/protocol'
@@ -71,7 +72,11 @@ when :debug then
   $logger.level = Logger::DEBUG
 end
 
-chatrec = CHATREC.new()
+chatrec_set = {}
+chatrec = nil
+
+history_db = LevelDB::DB.new(HistoryFile)
+
 
 options = {
   :Port => SystemPort,
@@ -109,32 +114,32 @@ s.mount_proc('/'){|request, response|
 
     userInput = JSON.parse(request.body)
     mode = userInput["mode"]
+    user_id = userInput["user_id"]
+
+    if chatrec_set.has_key?(user_id)
+      chatrec = chatrec_set[user_id]
+    else
+      chatrec = CHATREC.new(user_id, history_db)
+      chatrec_set[user_id] = chatrec
+    end
 
     case mode
     when "run"
       $logger.info("connection: :#{request.peeraddr.to_s}")
       $logger.info("run")
-      user_id = userInput["user_id"]
       query = userInput["query"]
-      message = chatrec.run(query, user_id)
+      message = chatrec.run(query)
       data["message"] = message
       response.body = JSON.generate(data)
     when "clear"
       $logger.info("connection: :#{request.peeraddr.to_s}")
       $logger.info("clear")
-      user_id = userInput["user_id"]
-      chatrec.clear(user_id)
-      response.body = JSON.generate({})
-    when "stop"
-      $logger.info("connection: :#{request.peeraddr.to_s}")
-      $logger.info("stop")
-      chatrec.close()
+      chatrec.clear()
       response.body = JSON.generate({})
     when "history"
       $logger.info("connection: :#{request.peeraddr.to_s}")
       $logger.info("history")
-      user_id = userInput["user_id"]
-      message = chatrec.load_history(user_id)
+      message = chatrec.load_history()
       data["message"] = message
       response.body = JSON.generate(data)
     end
@@ -170,5 +175,8 @@ Signal.trap(:INT){
 }
 
 s.start
-chatrec.close()
+
+puts "closing DB..."
+history_db.close
+puts "done"
 
