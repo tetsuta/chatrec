@@ -31,7 +31,7 @@ var Codex = function() {
             data: JSON.stringify({
                 mode: "clear",
 		session_id: session_id,
-		user_id: org + user_id
+		user_id: org + "_" + user_id
 	    }),
         }).done(function(data) {
 	    session_id = data.session_id;
@@ -59,7 +59,7 @@ var Codex = function() {
             data: JSON.stringify({
                 mode: "history",
 		session_id: session_id,
-		user_id: org + user_id
+		user_id: org + "_" + user_id
 	    }),
         }).done(function(data) {
 	    session_id = data.session_id;
@@ -83,7 +83,7 @@ var Codex = function() {
             data: JSON.stringify({
                 mode: "run",
 		session_id: session_id,
-		user_id: org + user_id,
+		user_id: org + "_" + user_id,
 		query: query
 	    }),
         }).done(function(data) {
