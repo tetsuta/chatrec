@@ -53,8 +53,7 @@ when "status"
   data = Hash::new()
   data["mode"] = mode
   response = http.post(path, JSON.generate(data), header)
-  data = JSON.parse(response.body)
-  p data
+  puts JSON.parse(response.body)["message"]
 
 end
 

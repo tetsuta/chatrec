@@ -92,6 +92,17 @@ if (UseSSL)
   options.store(:SSLOptions, OpenSSL::SSL::OP_ALL | OpenSSL::SSL::OP_NO_SSLv2 | OpenSSL::SSL::OP_IGNORE_UNEXPECTED_EOF)
 end
 
+def chatrec_status(chatrec_set)
+  buffer = []
+  buffer.push("size: #{chatrec_set.size}")
+  chatrec_set.each_pair{|user_id, chatrec|
+    buffer.push("---")
+    buffer.push(chatrec.status)
+  }
+  return buffer.join("\n")
+end
+
+
 s = WEBrick::HTTPServer.new(options)
 
 s.mount_proc('/'){|request, response|
@@ -118,7 +129,7 @@ s.mount_proc('/'){|request, response|
 
     if chatrec_set.has_key?(user_id)
       chatrec = chatrec_set[user_id]
-    else
+    elsif user_id != nil
       chatrec = CHATREC.new(user_id, history_db)
       chatrec_set[user_id] = chatrec
     end
@@ -140,6 +151,12 @@ s.mount_proc('/'){|request, response|
       $logger.info("connection: :#{request.peeraddr.to_s}")
       $logger.info("history")
       message = chatrec.load_history()
+      data["message"] = message
+      response.body = JSON.generate(data)
+    when "status"
+      $logger.info("connection: :#{request.peeraddr.to_s}")
+      $logger.info("status")
+      message = chatrec_status(chatrec_set)
       data["message"] = message
       response.body = JSON.generate(data)
     end

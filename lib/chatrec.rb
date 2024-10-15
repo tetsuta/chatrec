@@ -33,17 +33,31 @@ class CHATREC
   end
 
 
+  def status
+    buffer = []
+    buffer.push("user_id: #{@user_id}")
+    buffer.push("last used: #{@used_at.strftime("%Y%m%d %H:%M:%S")}")
+    buffer.push("age: #{age()}")
+    return buffer.join("\n")
+  end
+
+
   def clear()
+    set_timestamp()
+
     @oai.clear()
     type = "clear"
     query = ""
     response = ""
     store_to_corpus(type, query, response)
     puts "CLEAR!!!"
+
   end
 
 
   def run(query)
+    set_timestamp()
+
     response = @oai.get_answer(query)
 
     buffer = []
@@ -69,16 +83,20 @@ class CHATREC
 
     @history_db[@user_id] = JSON.generate(@history)
 
+
     return buffer.join("\n")
   end
 
 
   def load_history()
+    set_timestamp()
+
     if @history.size == 0
       return "(履歴はありません)<br>"
     else
       return @history.join("\n")
     end
+
   end
 
 
