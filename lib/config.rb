@@ -4,6 +4,7 @@ CorpusFile = "../log/corpus"
 CacheFile = "../log/cache_openai"
 LogFile = "../log/server.log"
 HistoryFile = "../log/history"
+ConnectionLifeSec = 43200
 
 CONFIG_JS_TEMPLATE = "../ui/js/config.js.template"
 CONFIG_JS = "../ui/js/config.js"

@@ -103,6 +103,20 @@ def chatrec_status(chatrec_set)
   return buffer.join("\n")
 end
 
+
+def delete_old_connection(chatrec_set)
+  buffer = []
+  buffer.push("deleted:")
+  chatrec_set.each_pair{|user_id, chatrec|
+    if chatrec.age > ConnectionLifeSec
+      buffer.push("#{user_id}\tage:#{chatrec.age}")
+      chatrec_set.delete(user_id)
+    end
+  }
+  return buffer.join("\n")
+end
+
+
 def generate_rand_key(num)
   charlist = ('0'..'9').to_a + ('a'..'z').to_a + ('A'..'Z').to_a
   buffer = ""
@@ -142,6 +156,13 @@ s.mount_proc('/'){|request, response|
       $logger.info("connection: :#{request.peeraddr.to_s}")
       $logger.info("status")
       message = chatrec_status(chatrec_set)
+      data["message"] = message
+      response.body = JSON.generate(data)
+
+    elsif mode == "delete"
+      $logger.info("connection: :#{request.peeraddr.to_s}")
+      $logger.info("delete")
+      message = delete_old_connection(chatrec_set)
       data["message"] = message
       response.body = JSON.generate(data)
 

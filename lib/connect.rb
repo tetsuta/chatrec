@@ -21,6 +21,7 @@ Usage:
 
 mode:
 status
+delete
 
 "
 
@@ -50,6 +51,12 @@ header = {'Content-Type' => 'application/json'}
 
 case mode
 when "status"
+  data = Hash::new()
+  data["mode"] = mode
+  response = http.post(path, JSON.generate(data), header)
+  puts JSON.parse(response.body)["message"]
+
+when "delete"
   data = Hash::new()
   data["mode"] = mode
   response = http.post(path, JSON.generate(data), header)
