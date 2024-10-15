@@ -57,6 +57,7 @@ opts.each{|opt, arg|
 #   fp.write(config_template.sub("_SERVER_HOST_ADDRESS_", ip_address))
 # }
 
+
 # --------------------------------------------------
 $logger = Logger.new(LogFile, LogAge, LogSize*1024*1024)
 case LogLevel
@@ -102,7 +103,17 @@ def chatrec_status(chatrec_set)
   return buffer.join("\n")
 end
 
+def generate_rand_key(num)
+  charlist = ('0'..'9').to_a + ('a'..'z').to_a + ('A'..'Z').to_a
+  buffer = ""
+  1.upto(num){
+    buffer << charlist[rand(charlist.size)]
+  }
+  return buffer
+end
 
+
+# --------------------------------------------------
 s = WEBrick::HTTPServer.new(options)
 
 s.mount_proc('/'){|request, response|
@@ -125,40 +136,58 @@ s.mount_proc('/'){|request, response|
 
     userInput = JSON.parse(request.body)
     mode = userInput["mode"]
-    user_id = userInput["user_id"]
 
-    if chatrec_set.has_key?(user_id)
-      chatrec = chatrec_set[user_id]
-    elsif user_id != nil
-      chatrec = CHATREC.new(user_id, history_db)
-      chatrec_set[user_id] = chatrec
-    end
 
-    case mode
-    when "run"
-      $logger.info("connection: :#{request.peeraddr.to_s}")
-      $logger.info("run")
-      query = userInput["query"]
-      message = chatrec.run(query)
-      data["message"] = message
-      response.body = JSON.generate(data)
-    when "clear"
-      $logger.info("connection: :#{request.peeraddr.to_s}")
-      $logger.info("clear")
-      chatrec.clear()
-      response.body = JSON.generate({})
-    when "history"
-      $logger.info("connection: :#{request.peeraddr.to_s}")
-      $logger.info("history")
-      message = chatrec.load_history()
-      data["message"] = message
-      response.body = JSON.generate(data)
-    when "status"
+    if mode == "status"
       $logger.info("connection: :#{request.peeraddr.to_s}")
       $logger.info("status")
       message = chatrec_status(chatrec_set)
       data["message"] = message
       response.body = JSON.generate(data)
+
+    else
+
+      session_id = userInput["session_id"]
+      if session_id == nil
+        session_id = generate_rand_key(8)
+        $logger.info("session generated: #{session_id}")
+      else
+        $logger.info("session existed: #{session_id}")
+      end
+      user_id = userInput["user_id"] + "__" + session_id
+
+      if chatrec_set.has_key?(user_id)
+        # puts "111:used"
+        chatrec = chatrec_set[user_id]
+      elsif user_id != nil
+        # puts "111:create"
+        chatrec = CHATREC.new(user_id, history_db)
+        chatrec_set[user_id] = chatrec
+        # puts "size: #{chatrec_set.size}"
+      end
+
+      data["session_id"] = session_id
+
+      case mode
+      when "run"
+        $logger.info("connection: :#{request.peeraddr.to_s}")
+        $logger.info("run")
+        query = userInput["query"]
+        message = chatrec.run(query)
+        data["message"] = message
+        response.body = JSON.generate(data)
+      when "clear"
+        $logger.info("connection: :#{request.peeraddr.to_s}")
+        $logger.info("clear")
+        chatrec.clear()
+        response.body = JSON.generate(data)
+      when "history"
+        $logger.info("connection: :#{request.peeraddr.to_s}")
+        $logger.info("history")
+        message = chatrec.load_history()
+        data["message"] = message
+        response.body = JSON.generate(data)
+      end
     end
 
   rescue Exception => e

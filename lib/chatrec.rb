@@ -81,7 +81,8 @@ class CHATREC
       @history.shift
     end
 
-    @history_db[@user_id] = JSON.generate(@history)
+    user_id_for_db = @user_id.sub(/__[0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z]$/,"")
+    @history_db[user_id_for_db] = JSON.generate(@history)
 
 
     return buffer.join("\n")
@@ -114,7 +115,9 @@ class CHATREC
 
   
   def read_history_db()
-    val = @history_db[@user_id]
+    user_id_for_db = @user_id.sub(/__[0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z][0-9a-zA-Z]$/,"")
+
+    val = @history_db[user_id_for_db]
     if val != nil
       @history = JSON.parse(val)
     end

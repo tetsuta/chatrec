@@ -3,6 +3,7 @@ var Codex = function() {
     var on_shift = false;
     var on_control = false;
     var key_down_code = null;
+    var session_id = null;
     var org = null;
 
     function main() {
@@ -29,9 +30,11 @@ var Codex = function() {
             url: new Config().getUrl() + '/',
             data: JSON.stringify({
                 mode: "clear",
+		session_id: session_id,
 		user_id: org + user_id
 	    }),
         }).done(function(data) {
+	    session_id = data.session_id;
 	    $('#result').html("");
 	    $("html,body").animate({scrollTop:$('#user_query').offset().top});
 	    $('#user_query').focus();
@@ -55,9 +58,11 @@ var Codex = function() {
             url: new Config().getUrl() + '/',
             data: JSON.stringify({
                 mode: "history",
+		session_id: session_id,
 		user_id: org + user_id
 	    }),
         }).done(function(data) {
+	    session_id = data.session_id;
 	    $('#result').html(data.message);
 	    $("html,body").animate({scrollTop:$('#user_query').offset().top});
 	    $('#status').html("<br><br>");
@@ -77,10 +82,12 @@ var Codex = function() {
             url: new Config().getUrl() + '/',
             data: JSON.stringify({
                 mode: "run",
+		session_id: session_id,
 		user_id: org + user_id,
 		query: query
 	    }),
         }).done(function(data) {
+	    session_id = data.session_id;
 	    var new_content = $('#result').html() + data.message;
 	    $('#result').html(new_content);
 	    $("html,body").animate({scrollTop:$('#user_query').offset().top});
