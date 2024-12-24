@@ -51,6 +51,11 @@ end_time = nil
 begin_time = Time.parse(begin_time_str) if begin_time_str != nil
 end_time = Time.parse(end_time_str) if end_time_str != nil
 
+# puts "begin"
+# puts begin_time
+# puts "end"
+# puts end_time
+
 # data[org][name][time_str] => {
 #   type
 #   user_uttr
@@ -80,7 +85,8 @@ ARGF.each{|line|
     puts [name, item["user_uttr"]].join("\t")
   else
     timestamp = Time.parse(item["timestamp"])
-    if (begin_time == nil || begin_time <= timestamp) && (end_time == nil || timestamp >= end_time )
+    # puts timestamp
+    if (begin_time == nil || begin_time <= timestamp) && (end_time == nil || timestamp <= end_time )
       data[org][name][item["timestamp"]] = {
         "type" => item["type"],
         "user_uttr" => item["user_uttr"],
