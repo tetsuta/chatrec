@@ -42,6 +42,10 @@ div.notice_message {
     margin: 20px;
 }
 
+div.but {
+    margin: 5px;
+}
+
 div#warning {
     color: purple;
 }

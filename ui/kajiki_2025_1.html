@@ -1,0 +1,70 @@
+<!doctype html>
+<html>
+<head>
+  <title>Chat with AI</title>
+
+  <meta charset="utf-8">
+  <meta http-equiv="Content-Type" content="text/html">
+
+  <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+  <script type="text/javascript" src="js/jquery-3.7.1.min.js"></script>
+  <link rel="stylesheet" href="css/base.css" />
+  <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
+  <script type="text/javascript" src="js/bootstrap.min.js"></script>
+
+  <!-- <script type="text/javascript" src="js/moment.js"></script> -->
+  <script type="text/javascript" src="js/config.js"></script>
+  <script type="text/javascript" src="js/chatrec.js"></script>
+</head>
+
+<body>
+  <div class="container">
+
+    <div class="input-group mb-3">
+      <button id="user_info" type="button" class="btn btn-secondary" disabled>User Info</button>
+      <div class="form-floating">
+	<input class="form-control" id="user_id" placeholder="__user_id__">
+	<label for="floatingInput">グループID</label>
+      </div>
+      <button id="history" type="button" class="btn btn-primary">履歴</button>
+      <button id="clear" type="button" class="btn btn-primary">クリア</button>
+
+      <!-- <div class="form-floating"> -->
+	<!--   <input class="form-control" id="user_name" placeholder="氏名"> -->
+	<!--   <label for="floatingInput">氏名</label> -->
+	<!-- </div> -->
+    </div>
+
+
+    <div id="result">
+    </div>
+
+    <div class="form">
+      <div class="input-group mb-3">
+	<input class="form-control" id="user_query" data-org="kjhs_2025_1" placeholder="(ここに書いてAIと話す)">
+	<button id="run" type="button" class="btn btn-primary">入力</button>
+      </div>
+    </div>
+
+    <!-- <div id="warning"> -->
+    <!-- ※ 同一のグループIDを同時に使わないでください<br> -->
+    <!-- もし複数人で同時に使いたい場合は、グループID「人文科学3」に対して「人文科学3-1」のように「-1」のような添字を付けて、各自が異なるグループIDを使うようにしてください。 -->
+    <!-- </div> -->
+
+    <div id="warning1"></div>
+    <div id="warning2"></div>
+    <div id="status"></div>
+
+    <!-- <div class="controller"> -->
+    <!--   <div class="button-container"> -->
+    <!-- 	<button id="run" type="button" class="btn btn-primary">Run</button> -->
+    <!-- 	<button id="clear" type="button" class="btn btn-primary">Clear</button> -->
+    <!--   </div> -->
+    <!-- </div><\!-- /controller -\-> -->
+
+
+  </div><!-- /container -->
+
+</body>
+</html>
